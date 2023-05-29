@@ -10,16 +10,22 @@ public class PlatformManager : MonoBehaviour
     private Vector3 hitPosition;
     private Platform currentPlatformScript;
     
+    
+    public Color newColor;
+    public Material targetMaterial;
+    
+    
+    
+    
     void Start()
     {
-        
-        
         currentPlatform = firstPlatform;
         currentPlatformScript = currentPlatform.GetComponent<Platform>();
-
+        
+        
+        targetMaterial.color = newColor;
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -39,18 +45,15 @@ public class PlatformManager : MonoBehaviour
                 
             }
         }
-
-
+        
         /*
         if (Vector3.Distance(hitPosition, currentPlatformScript.endPosition.position)<2f)
         {
             
             Debug.Log("SpawnPlatform");
             SpawnPlatform();
-            
         }
         */
-        
     }
 
     private void SpawnPlatform()
@@ -61,9 +64,10 @@ public class PlatformManager : MonoBehaviour
         
         GameObject newPlatform = Instantiate(randomPlatform, currentPlatformScript.endPosition.position, Quaternion.identity);
         
-
         currentPlatform = newPlatform;
+        
         currentPlatformScript = currentPlatform.GetComponent<Platform>();
+        
         Debug.Log(" ******************************* "+newPlatform.transform.GetChild(0).gameObject.transform.position);
 
     }

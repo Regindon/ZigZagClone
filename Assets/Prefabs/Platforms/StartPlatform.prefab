@@ -131,6 +131,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   endPosition: {fileID: 75969156477580194}
+  speed: 1
+  platformChild: {fileID: 8092306879208767196}
 --- !u!1 &4589080893288056972
 GameObject:
   m_ObjectHideFlags: 0
