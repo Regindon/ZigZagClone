@@ -94,9 +94,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5356535818360517519}
   - component: {fileID: 2067792548712088714}
+  - component: {fileID: 7458233113238965676}
   m_Layer: 0
   m_Name: StartPlatform
-  m_TagString: Untagged
+  m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -133,6 +134,19 @@ MonoBehaviour:
   endPosition: {fileID: 75969156477580194}
   speed: 1
   platformChild: {fileID: 8092306879208767196}
+--- !u!65 &7458233113238965676
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3671359562693728272}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 10.393509, y: 1, z: 10.3512125}
+  m_Center: {x: -5.1967545, y: 0.5, z: 5.1756063}
 --- !u!1 &4589080893288056972
 GameObject:
   m_ObjectHideFlags: 0
