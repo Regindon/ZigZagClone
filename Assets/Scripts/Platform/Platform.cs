@@ -27,22 +27,17 @@ public class Platform : MonoBehaviour
     private void Update()
     {
         Vector3 objectScreenPosition = Camera.main.WorldToScreenPoint(_objectTransform.position);
-        Debug.Log(objectScreenPosition.y);
-        
+        //Debug.Log(objectScreenPosition.y);
         
         if (objectScreenPosition.y < 30)
         {
             transform.Translate(_translateVector3 * speed * Time.deltaTime);
         }
-        
-        
 
         if (objectScreenPosition.y < -600)
         {
             Destroy(gameObject);
         }
-
-
     }
 
     
