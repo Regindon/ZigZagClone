@@ -18,7 +18,7 @@ public class Platform : MonoBehaviour
 
     private void Start()
     {
-        _objectTransform = gameObject.transform;
+        _objectTransform = platformChild.transform;
         _objectRenderer = platformChild.GetComponent<MeshRenderer>();
         _translateVector3 = new Vector3(0, -1, 0);
 
@@ -29,7 +29,7 @@ public class Platform : MonoBehaviour
         Vector3 objectScreenPosition = Camera.main.WorldToScreenPoint(_objectTransform.position);
         //Debug.Log(objectScreenPosition.y);
         
-        if (objectScreenPosition.y < 30)
+        if (objectScreenPosition.y < 110)
         {
             transform.Translate(_translateVector3 * speed * Time.deltaTime);
         }
