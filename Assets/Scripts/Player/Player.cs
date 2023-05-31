@@ -16,16 +16,18 @@ public class Player : MonoBehaviour
     void Update()
     {
         Debug.Log(_move);
-        if (Input.GetMouseButtonDown(0) && _move)
-        {
-            _xDirection = !_xDirection;
-        }
-
+        
         if (!_move)
         {
             Camera.main.GetComponent<CinemachineBrain>().enabled = false;
             gameObject.GetComponent<Rigidbody>().useGravity = true;
         }
+        if (Input.GetMouseButtonDown(0) && _move)
+        {
+            _xDirection = !_xDirection;
+        }
+
+        
 
         _movement = _xDirection ? new Vector3(-1, 0, 0) : new Vector3(0, 0, 1);
         
