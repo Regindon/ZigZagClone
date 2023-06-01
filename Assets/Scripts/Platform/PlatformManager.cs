@@ -1,10 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PlatformManager : MonoBehaviour
 {
-    public List<GameObject> platformList;
+    
     [SerializeField] private GameObject rightPlatform;
     [SerializeField] private GameObject leftPlatform;
     [SerializeField] private GameObject firstPlatform;
@@ -13,11 +15,9 @@ public class PlatformManager : MonoBehaviour
     private Vector3 hitPosition;
     private Platform currentPlatformScript;
     
-    
     public Color newColor;
     public Material targetMaterial;
-
-
+    
     private int _spawnedPlatformCount;
     private int _spawnedRightPlatform;
     private int _spawnedLeftPlatform;
@@ -25,13 +25,13 @@ public class PlatformManager : MonoBehaviour
     private bool _spawnLeftPlatform;
     private bool _spawnRandom;
     
-    
-    
+
     void Start()
     {
         currentPlatform = firstPlatform;
         currentPlatformScript = currentPlatform.GetComponent<Platform>();
         targetMaterial.color = newColor;
+        SpawnPlatform();
     }
     
     void Update()
@@ -39,9 +39,7 @@ public class PlatformManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
             RaycastHit hit;
-
             if (Physics.Raycast(ray,out hit))
             {
                 hitPosition = hit.point;
@@ -50,7 +48,6 @@ public class PlatformManager : MonoBehaviour
                     Debug.Log("spawn platform hit detect");
                     SpawnPlatform();
                 }
-                
             }
         }
         
@@ -148,8 +145,6 @@ public class PlatformManager : MonoBehaviour
             }
         }
         
-        
-        
 
     }
 
@@ -166,27 +161,22 @@ public class PlatformManager : MonoBehaviour
 
     private int CheckWhatToSpawn()
     {
-        
         if (_spawnedLeftPlatform>_spawnedRightPlatform+5)
         {
             return 1;
         }
-        
         if (_spawnedRightPlatform>_spawnedLeftPlatform+5)
         {
             return 2;
         }
-
         if (Mathf.Abs(_spawnedLeftPlatform-_spawnedRightPlatform)<3)
         {
             return 4;
         }
-
         else
         {
             return 3;
         }
-        
     }
     
     
