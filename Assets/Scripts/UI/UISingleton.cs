@@ -19,7 +19,7 @@ public class UISingleton : Singleton<UISingleton>
     [Header("GameName/Tap to Play")] 
     public RectTransform gameNameTextPanel; //This should contain gameNameText, tapToPlayText
     public TextMeshProUGUI gameNameText;
-    public TextMeshProUGUI tapToPlayText;
+    public Button tapToPlayButton;
     [Space(5)]
     
     [Header("Buttons")] 
@@ -34,6 +34,9 @@ public class UISingleton : Singleton<UISingleton>
     public TextMeshProUGUI gameOverHighScoreText;
     public Button retryButton;
 
+    
+    
+    
 
     public void ActivateStartScreen(float animationDelay , string _highScoreText, string _gamesPlayedText )
     {
