@@ -10,52 +10,45 @@ public class PlatformManager : MonoBehaviour
     [SerializeField] private GameObject rightPlatform;
     [SerializeField] private GameObject leftPlatform;
     [SerializeField] private GameObject firstPlatform;
-    private GameObject currentPlatform;
-    private GameObject selectedPlatform;
-    private Vector3 hitPosition;
-    private Platform currentPlatformScript;
+    private GameObject _currentPlatform;
+    private GameObject _selectedPlatform;
+    private Platform _currentPlatformScript;
     
-    public Color newColor;
-    public Material targetMaterial;
+    [SerializeField] private Color newColor;
+    [SerializeField] private Material targetMaterial;
     
-    private int _spawnedPlatformCount;
+    public int currentPlatformCount;
     private int _spawnedRightPlatform;
     private int _spawnedLeftPlatform;
     private bool _spawnRightPlatform;
     private bool _spawnLeftPlatform;
     private bool _spawnRandom;
-    
+
+
+    private void Awake()
+    {
+        Screen.SetResolution(480,812,true);
+    }
 
     void Start()
     {
-        currentPlatform = firstPlatform;
-        currentPlatformScript = currentPlatform.GetComponent<Platform>();
-        targetMaterial.color = newColor;
+        _currentPlatform = firstPlatform;
+        _currentPlatformScript = _currentPlatform.GetComponent<Platform>();
+        
         SpawnPlatform();
     }
     
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (currentPlatformCount<90)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray,out hit))
-            {
-                hitPosition = hit.point;
-                if (hit.collider.isTrigger)
-                {
-                    Debug.Log("spawn platform hit detect");
-                    SpawnPlatform();
-                }
-            }
+            SpawnPlatform();
         }
-        
     }
 
     private void SpawnPlatform()
     {
-        for (var i = 0; i < 25; i++)
+        for (var i = 0; i < 30; i++)
         {
             var decider = CheckWhatToSpawn();
             float random;
@@ -65,45 +58,41 @@ public class PlatformManager : MonoBehaviour
                     random = Random.Range(1, 3);
                     if (random<=1)
                     {
-                        selectedPlatform = rightPlatform;
+                        _selectedPlatform = rightPlatform;
                         Spawn();
                         _spawnedRightPlatform++;
                     }
                     else
                     {
-                        selectedPlatform = leftPlatform;
+                        _selectedPlatform = leftPlatform;
                         Spawn();
                         _spawnedLeftPlatform++;
                     }
                     i++;
-                    //Debug.Log(selectedPlatform+"case 3");
                     break;
                 
                 case 2:
-                    selectedPlatform = leftPlatform;
+                    _selectedPlatform = leftPlatform;
                     Spawn();
                     Spawn();
                     _spawnedLeftPlatform+=2;
                     i++;
-                    //Debug.Log(selectedPlatform+"case 2");
                     break;
                     
                 case 1:
-                    selectedPlatform = rightPlatform;
+                    _selectedPlatform = rightPlatform;
                     Spawn();
                     Spawn();
                     _spawnedRightPlatform+=2;
                     i++;
-                    //Debug.Log(selectedPlatform+"case 1");
                     break;
                 
                 case 4:
                     random = Random.Range(1, 5);
-                    //Debug.Log(random);
-                    selectedPlatform = random<=1 ? rightPlatform : leftPlatform;
+                    _selectedPlatform = random<=1 ? rightPlatform : leftPlatform;
                     if (random<=1)
                     {
-                        selectedPlatform = rightPlatform;
+                        _selectedPlatform = rightPlatform;
                         Spawn();
                         Spawn();
                         Spawn();
@@ -112,7 +101,7 @@ public class PlatformManager : MonoBehaviour
                     }
                     else if (random<=2)
                     {
-                        selectedPlatform = leftPlatform;
+                        _selectedPlatform = leftPlatform;
                         Spawn();
                         Spawn();
                         Spawn();
@@ -121,26 +110,22 @@ public class PlatformManager : MonoBehaviour
                     }
                     else if (random<=3)
                     {
-                        selectedPlatform = rightPlatform;
+                        _selectedPlatform = rightPlatform;
                         Spawn();
                         Spawn();
                         Spawn();
-                        Spawn();
-                        Spawn();
-                        _spawnedRightPlatform+=5;
+                        
+                        _spawnedRightPlatform+=3;
                     }
                     else
                     {
-                        selectedPlatform = leftPlatform;
+                        _selectedPlatform = leftPlatform;
                         Spawn();
                         Spawn();
                         Spawn();
-                        Spawn();
-                        Spawn();
-                        _spawnedLeftPlatform+=5;
+                        _spawnedLeftPlatform+=3;
                     }
                     i++;
-                    //Debug.Log(selectedPlatform+"case 4");
                     break;
             }
         }
@@ -150,22 +135,22 @@ public class PlatformManager : MonoBehaviour
 
     private void Spawn()
     {
-        GameObject newPlatform = Instantiate(selectedPlatform, currentPlatformScript.endPosition.position, Quaternion.identity);
+        GameObject newPlatform = Instantiate(_selectedPlatform, _currentPlatformScript.endPosition.position, Quaternion.identity);
         
-        currentPlatform = newPlatform;
+        _currentPlatform = newPlatform;
         
-        currentPlatformScript = currentPlatform.GetComponent<Platform>();
-
-        _spawnedPlatformCount++;
+        _currentPlatformScript = _currentPlatform.GetComponent<Platform>();
+        
+        currentPlatformCount++;
     }
 
     private int CheckWhatToSpawn()
     {
-        if (_spawnedLeftPlatform>_spawnedRightPlatform+5)
+        if (_spawnedLeftPlatform>_spawnedRightPlatform+4)
         {
             return 1;
         }
-        if (_spawnedRightPlatform>_spawnedLeftPlatform+5)
+        if (_spawnedRightPlatform>_spawnedLeftPlatform+4)
         {
             return 2;
         }
@@ -177,6 +162,14 @@ public class PlatformManager : MonoBehaviour
         {
             return 3;
         }
+    }
+
+    public void SetRandomColorPlatform()
+    {
+        targetMaterial.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
+     
+        // hexa code 77CAD7
+        //Start HSV Code -->  188 - 72 - 79 - 100
     }
     
     

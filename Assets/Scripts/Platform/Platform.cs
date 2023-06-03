@@ -10,9 +10,13 @@ public class Platform : MonoBehaviour
     [SerializeField] private GameObject platformChild;
     private Transform _objectTransform;
     private Vector3 _translateVector3;
+    [SerializeField] private PlatformManager platformManager;
+    private GameObject _platformManagerGameObject;
     
     private void Start()
     {
+        _platformManagerGameObject = GameObject.FindWithTag("PlatformManager");
+        platformManager = _platformManagerGameObject.GetComponent<PlatformManager>();
         _objectTransform = platformChild.transform;
         _translateVector3 = new Vector3(0, -1, 0);
     }
@@ -28,11 +32,10 @@ public class Platform : MonoBehaviour
 
         if (objectScreenPosition.y < -600)
         {
+            platformManager.currentPlatformCount--;
             Destroy(gameObject);
         }
     }
-
-    
 
     
 }

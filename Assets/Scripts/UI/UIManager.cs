@@ -1,12 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UISingleton : Singleton<UISingleton>
+public class UIManager : MonoBehaviour
 {
+    public bool startGame;
+
+    [Header("Player Score in Game")] [Space(10)]
+    [SerializeField] private TextMeshProUGUI _playerScoreInGame;
+
     [Header("Start screen UI")]
     [Space(10)]
     
@@ -18,58 +25,77 @@ public class UISingleton : Singleton<UISingleton>
     
     [Header("GameName/Tap to Play")] 
     public RectTransform gameNameTextPanel; //This should contain gameNameText, tapToPlayText
-    public TextMeshProUGUI gameNameText;
-    public Button tapToPlayButton;
     [Space(5)]
     
+    /*
     [Header("Buttons")] 
     public RectTransform buttonsPanel; //This should contain soundButton, shotButton
     public Button soundButton;
     public Button shopButton;
+    */
+
 
     [Space(10)] [Header("Game over screen UI")] [Space(10)] [Header("ScoreText/HighScoreText/RetryButton/GameOverText")]
     public RectTransform gameOverScorePanel; //This should contain gameOverText, gameOverPlayerScoreText, gameOverHighScore, retryButton
-    public TextMeshProUGUI gameOverText;
     public TextMeshProUGUI gameOverPlayerScoreText;
     public TextMeshProUGUI gameOverHighScoreText;
-    public Button retryButton;
 
-    
-    
-    
 
-    public void ActivateStartScreen(float animationDelay , string _highScoreText, string _gamesPlayedText )
+    private void Start()
     {
-        int highScore = SaveData.Instance.playerStats.highScore;
-        highScoreText.text += highScore;
-        int gamesPlayed = SaveData.Instance.playerStats.gamesPlayed;
-        gamesPlayedText.text += gamesPlayed;
-        
-        gameNameTextPanel.DOAnchorPosY(100, animationDelay, true);
-        highScoreTextPanel.DOAnchorPosY(80, animationDelay, true);
-        buttonsPanel.DOAnchorPosY(60, animationDelay, true);
+        ActivateStartScreen(.5f);
     }
 
-    public void DeactivateStartScreen(float animationDelay)
+    private void Update()
     {
-        gameNameTextPanel.DOAnchorPosY(-100, animationDelay, true);
-        highScoreTextPanel.DOAnchorPosY(-100, animationDelay, true);
-        buttonsPanel.DOAnchorPosY(-100, animationDelay, true);
+        _playerScoreInGame.text = SaveData.Instance.playerStats.playerScore.ToString();
+
+        if (startGame)
+        {
+            return;
+        }
+
+        if (!Input.GetMouseButtonDown(0)) return;
+        startGame = true;
+        DeactivateStartScreen(.5f);
+    }
+
+
+    private void ActivateStartScreen(float animationDelay )
+    {
+        var highScore = SaveData.Instance.playerStats.highScore;
+        highScoreText.text += highScore;
+        var gamesPlayed = SaveData.Instance.playerStats.gamesPlayed;
+        gamesPlayedText.text += gamesPlayed;
+        
+        gameNameTextPanel.DOAnchorPosY(1200, animationDelay, true);
+        highScoreTextPanel.DOAnchorPosY(550, animationDelay, true);
+        
+    }
+
+    private void DeactivateStartScreen(float animationDelay)
+    {
+        gameNameTextPanel.DOAnchorPosY(2300, animationDelay, true);
+        highScoreTextPanel.DOAnchorPosY(-500, animationDelay, true);
+        
     }
 
     public void ActivateGameOverScreen(float animationDelay)
     {
-        int gameOverPlayerScore = SaveData.Instance.playerStats.gameOverPlayerScore;
+        var gameOverPlayerScore = SaveData.Instance.playerStats.gameOverPlayerScore;
         gameOverPlayerScoreText.text += gameOverPlayerScore;
-        int gameOverHighScore = SaveData.Instance.playerStats.highScore;
+        var gameOverHighScore = SaveData.Instance.playerStats.highScore;
         gameOverHighScoreText.text += gameOverHighScore;
         
-        gameOverScorePanel.DOAnchorPosY(100, animationDelay, true);
+        gameOverScorePanel.DOAnchorPosX(0, animationDelay, true);
     }
 
+    
+    /*
     public void DeactivateGameOverScreen(float animationDelay)
     {
-        gameOverScorePanel.DOAnchorPosY(-100, animationDelay, true);
+        gameOverScorePanel.DOAnchorPosX(800, animationDelay, true);
     }
+    */
 
 }
