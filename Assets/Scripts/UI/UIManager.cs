@@ -57,6 +57,7 @@ public class UIManager : MonoBehaviour
 
         if (!Input.GetMouseButtonDown(0)) return;
         startGame = true;
+        _playerScoreInGame.enabled = true;
         DeactivateStartScreen(.5f);
     }
 

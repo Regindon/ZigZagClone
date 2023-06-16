@@ -8,6 +8,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] private float speed;
+    private int _materialIndex;
     private Vector3 _movement;
     private bool _xDirection;
     private bool _move = true;
@@ -22,19 +23,21 @@ public class Player : MonoBehaviour
     {
         
         if (!uiManager.startGame) return;
-
-        if (speed<=8 && _checkSpeedColor)
+        
+        var currentScore = SaveData.Instance.playerStats.playerScore;
+        if (currentScore%25 ==0 && _checkSpeedColor)
         {
-            var currentScore = SaveData.Instance.playerStats.playerScore;
-            if (currentScore%24 ==1)
-            {
-                speed += .5f;
-                Debug.Log(speed);
-                _checkSpeedColor = false;
-                platformManager.SetRandomColorPlatform();
-            }
+            speed += .5f;
+            Debug.Log(speed);
+            _checkSpeedColor = false;
             
+            if (currentScore !=0)
+            {
+                platformManager.SetPlatformColor(_materialIndex);
+                _materialIndex++;
+            }
         }
+       
         
         
         if (!_move)

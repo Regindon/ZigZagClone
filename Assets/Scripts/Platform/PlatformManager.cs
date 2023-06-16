@@ -14,10 +14,13 @@ public class PlatformManager : MonoBehaviour
     private GameObject _selectedPlatform;
     private Platform _currentPlatformScript;
     
-    [SerializeField] private Color newColor;
-    [SerializeField] private Material targetMaterial;
     
-    public int currentPlatformCount;
+    [SerializeField] private Material targetMaterial;
+    [SerializeField] private Color startColor;
+    [SerializeField] private List<Color> colorList = new List<Color>();
+
+    
+    [NonSerialized] public int currentPlatformCount;
     private int _spawnedRightPlatform;
     private int _spawnedLeftPlatform;
     private bool _spawnRightPlatform;
@@ -27,7 +30,8 @@ public class PlatformManager : MonoBehaviour
 
     private void Awake()
     {
-        Screen.SetResolution(480,812,true);
+        Screen.SetResolution(460,812,false);
+        SetStartColor();
     }
 
     void Start()
@@ -164,12 +168,29 @@ public class PlatformManager : MonoBehaviour
         }
     }
 
-    public void SetRandomColorPlatform()
+    private void SetRandomColorPlatform()
     {
         targetMaterial.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
      
         // hexa code 77CAD7
         //Start HSV Code -->  188 - 72 - 79 - 100
+    }
+
+    public void SetPlatformColor(int i)
+    {
+        if (colorList.Count<i)
+        {
+            SetRandomColorPlatform();
+        }
+        else
+        {
+            targetMaterial.color = colorList[i];
+        }
+    }
+
+    public void SetStartColor()
+    {
+        targetMaterial.color = startColor;
     }
     
     
